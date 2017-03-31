@@ -1,8 +1,9 @@
 # Bot.Messenger
 .NET SDK Library for Facebook's Messenger Bot
 
-Nuget Package https://www.nuget.org/packages/Bot.Messenger
-Sample WebAPI project https://github.com/olisamaduka/MessengerBot-WebAPI
+> Nuget Package https://www.nuget.org/packages/Bot.Messenger
+>
+> Sample WebAPI project https://github.com/olisamaduka/MessengerBot-WebAPI
 
 ## How to Use
 
