@@ -73,7 +73,7 @@ Sample WebAPI project https://github.com/olisamaduka/MessengerBot-WebAPI
                 {                
                     if (evt.EventType == WebhookEventType.MessageReceivedCallback)
                     {
-                        await bot.SendApi.SendActionAsync(evt.Sender.ID, SenderAction.typing_on);
+                        await bot.SendApi.SendActionAsync(evt.Sender.ID, Bot.Messenger.Models.SenderAction.typing_on);
 
                         Bot.Messenger.Models.UserProfileResponse userProfileRsp = await bot.UserProfileApi.GetUserProfileAsync(evt.Sender.ID);
 
