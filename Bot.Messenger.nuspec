@@ -6,9 +6,9 @@
     <title>Bot.Messenger</title>
     <authors>Jaffa Technologies Limited, Olisa Maduka</authors>
     <owners>Olisa Maduka</owners>
-    <licenseUrl></licenseUrl>
+    <licenseUrl>https://github.com/olisamaduka/Bot.Messenger/blob/master/LICENSE.md</licenseUrl>
     <projectUrl>https://github.com/olisamaduka/Bot.Messenger</projectUrl>
-    <iconUrl></iconUrl>
+    <iconUrl>https://avatars3.githubusercontent.com/u/19571542?v=3&s=400</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>.NET SDK Library for Facebook's Messenger Bot</description>
     <releaseNotes></releaseNotes>
