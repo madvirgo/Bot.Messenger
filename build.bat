@@ -14,10 +14,10 @@ if "%nuget%" == "" (
 	set nuget=nuget
 )
 
-%WINDIR%\Microsoft.NET\Framework\v4.0.30319\msbuild Bot.Messenger.sln /p:Configuration="%config%" /m /v:M /fl /flp:LogFile=msbuild.log;Verbosity=diag /nr:false
+%programfiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe Bot.Messenger.sln /p:Configuration="%config%" /m /v:M /fl /flp:LogFile=msbuild.log;Verbosity=diag /nr:false
 
 mkdir Build
 mkdir Build\lib
-mkdir Build\lib\net45
+mkdir Build\lib\net461
 
 %nuget% pack "Bot.Messenger.nuspec" -NoPackageAnalysis -verbosity detailed -o Build -Version %version% -p Configuration="%config%"
