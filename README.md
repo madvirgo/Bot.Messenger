@@ -88,7 +88,7 @@ Sample WebAPI project https://github.com/olisamaduka/MessengerBot-WebAPI
                                     if (attachment.Type != Bot.Messenger.Models.AttachmentType.fallback
                                         && attachment.Type != Bot.Messenger.Models.AttachmentType.location)
                                     {
-                                    await bot.SendApi.SendTextAsync(evt.Sender.ID, $"Hello {userProfileRsp?.FirstName}, you sent this and we thought it would be nice we sent it back :)");
+                                        await bot.SendApi.SendTextAsync(evt.Sender.ID, $"Hello {userProfileRsp?.FirstName}, you sent this and we thought it would be nice we sent it back :)");
                                     
                                         response = await bot.SendApi.SendAttachmentAsync(evt.Sender.ID, attachment);
                                     }
