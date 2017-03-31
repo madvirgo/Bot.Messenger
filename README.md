@@ -1,5 +1,5 @@
 # Bot.Messenger
-.NET SDK Library for Facebook's Messenger Bot
+.NET Framework Library for Facebook Messenger Bot
 
 > Nuget Package https://www.nuget.org/packages/Bot.Messenger
 >
