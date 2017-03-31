@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{14995748-9D18-46BF-A7B7-7E9111352CAF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bot.Messenger</RootNamespace>
+    <AssemblyName>Bot.Messenger</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApiBase.cs" />
+    <Compile Include="MessengerPlatform.cs" />
+    <Compile Include="MessengerCredentials.cs" />
+    <Compile Include="Models\Messaging\AccountLink.cs" />
+    <Compile Include="Models\Messaging\NotificationType.cs" />
+    <Compile Include="Models\Messaging\RefParam.cs" />
+    <Compile Include="Models\Messaging\Referral.cs" />
+    <Compile Include="Models\Messaging\Responses\MessengerProfileAPIResponse.cs" />
+    <Compile Include="Models\Messaging\Responses\WebResponse.cs" />
+    <Compile Include="Models\Messaging\Responses\SendApiResponse.cs" />
+    <Compile Include="Models\Messaging\Responses\UserProfileApiResponse.cs" />
+    <Compile Include="Models\Messaging\Webhook\WebhookEventType.cs" />
+    <Compile Include="Models\Messaging\Webhook\WebhookMessageDeliveredNotification.cs" />
+    <Compile Include="Models\Messaging\Webhook\WebhookMessageReadNotification.cs" />
+    <Compile Include="Models\MessengerProfile\AudienceType.cs" />
+    <Compile Include="Models\MessengerProfile\CallToAction.cs" />
+    <Compile Include="Models\MessengerProfile\CountryFilter.cs" />
+    <Compile Include="Models\MessengerProfile\Greeting.cs" />
+    <Compile Include="Models\MessengerProfile\MessengerProfileField.cs" />
+    <Compile Include="Models\MessengerProfile\MessengerProfileSetting.cs" />
+    <Compile Include="Models\MessengerProfile\PaymentSetting.cs" />
+    <Compile Include="Models\MessengerProfile\PersistentMenu.cs" />
+    <Compile Include="Models\MessengerProfile\TargetAudience.cs" />
+    <Compile Include="Models\Payment\CheckoutShippingAddress.cs" />
+    <Compile Include="Models\Payment\CheckoutUpdate.cs" />
+    <Compile Include="Models\Payment\Payment.cs" />
+    <Compile Include="Models\Payment\PaymentAmount.cs" />
+    <Compile Include="Models\Payment\PaymentCredential.cs" />
+    <Compile Include="Models\Payment\ProviderType.cs" />
+    <Compile Include="Models\Payment\ShippingOption.cs" />
+    <Compile Include="Models\Residence.cs" />
+    <Compile Include="Models\UserInfo.cs" />
+    <Compile Include="Serialization\JsonConverters\AttachmentListConverter.cs" />
+    <Compile Include="Tools\AttachmentHandler.cs" />
+    <Compile Include="Tools\MessengerProfileAPI.cs" />
+    <Compile Include="Tools\RequestHandler.cs" />
+    <Compile Include="Tools\SendApi.cs" />
+    <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\Adjustment.cs" />
+    <Compile Include="Models\AspectRatio.cs" />
+    <Compile Include="Models\Messaging\Responses\Errors\ErrorResponse.cs" />
+    <Compile Include="Models\Messaging\Responses\Errors\Error.cs" />
+    <Compile Include="Models\Messaging\Messages\AttachmentMessage.cs" />
+    <Compile Include="Models\Messaging\Payloads\Payload.cs" />
+    <Compile Include="Models\Messaging\Payloads\LocationPayload.cs" />
+    <Compile Include="Models\Messaging\Payloads\UrlPayload.cs" />
+    <Compile Include="Models\Messaging\AttachmentType.cs" />
+    <Compile Include="Models\Buttons\Button.cs" />
+    <Compile Include="Models\Buttons\BuyButton.cs" />
+    <Compile Include="Models\Buttons\CallButton.cs" />
+    <Compile Include="Models\Buttons\ElementDefaultAction.cs" />
+    <Compile Include="Models\Buttons\LogInButton.cs" />
+    <Compile Include="Models\Buttons\LogOutButton.cs" />
+    <Compile Include="Models\Buttons\PostbackButton.cs" />
+    <Compile Include="Models\Buttons\ShareButton.cs" />
+    <Compile Include="Models\Buttons\ButtonType.cs" />
+    <Compile Include="Models\ContentSize.cs" />
+    <Compile Include="Models\CustomField.cs" />
+    <Compile Include="Models\Elements\Element.cs" />
+    <Compile Include="Models\Elements\ElementStyle.cs" />
+    <Compile Include="Models\Elements\ReceiptElement.cs" />
+    <Compile Include="Models\Messaging\MessageContainer.cs" />
+    <Compile Include="Models\Messaging\Webhook\WebhookMessage.cs" />
+    <Compile Include="Models\Messaging\Messages\TextMessage.cs" />
+    <Compile Include="Models\Messaging\QuickReply.cs" />
+    <Compile Include="Models\Messaging\QuickReplyContentType.cs" />
+    <Compile Include="Models\Messaging\SenderActionContainer.cs" />
+    <Compile Include="Models\Messaging\Webhook\WebhookAttachment.cs" />
+    <Compile Include="Models\Messaging\Webhook\WebhookEntry.cs" />
+    <Compile Include="Models\Localization\Locale.cs" />
+    <Compile Include="Models\Localization\LocaleCode.cs" />
+    <Compile Include="Models\Localization\LocaleCodeStandard.cs" />
+    <Compile Include="Models\Localization\Localization.cs" />
+    <Compile Include="Models\Messaging\Messages\Message.cs" />
+    <Compile Include="Models\Messaging\Attachment.cs" />
+    <Compile Include="Models\Messaging\Webhook\WebhookEvent.cs" />
+    <Compile Include="Models\Payment\PaymentType.cs" />
+    <Compile Include="Models\Payment\PaymentSummary.cs" />
+    <Compile Include="Models\Payment\Price.cs" />
+    <Compile Include="Models\Messaging\Postback.cs" />
+    <Compile Include="Models\Messaging\Identifier.cs" />
+    <Compile Include="Models\ProductInfo.cs" />
+    <Compile Include="Models\Messaging\SenderAction.cs" />
+    <Compile Include="Models\Summary.cs" />
+    <Compile Include="Models\Templates\Airline\AirlineBordingPassTemplate.cs" />
+    <Compile Include="Models\Templates\Airline\AirlineCheckinReminderTemplate.cs" />
+    <Compile Include="Models\Templates\Airline\AirlineFlightUpdateTemplate.cs" />
+    <Compile Include="Models\Templates\Airline\AirlineItinaryTemplate.cs" />
+    <Compile Include="Models\Templates\Airline\AirlineTemplate.cs" />
+    <Compile Include="Models\Templates\Airline\FlightUpdateType.cs" />
+    <Compile Include="Models\Templates\Airline\ItinaryFlightInfo.cs" />
+    <Compile Include="Models\Templates\Airline\ItinaryPriceInfo.cs" />
+    <Compile Include="Models\Templates\Airline\PassengerInfo.cs" />
+    <Compile Include="Models\Templates\Airline\PassengerSegmentInfo.cs" />
+    <Compile Include="Models\Templates\Airline\Airport.cs" />
+    <Compile Include="Models\Templates\Airline\BoardingPass.cs" />
+    <Compile Include="Models\Templates\ButtonTemplate.cs" />
+    <Compile Include="Models\Templates\ElementTemplate.cs" />
+    <Compile Include="Models\Templates\Airline\FlightInfo.cs" />
+    <Compile Include="Models\Templates\Airline\FlightSchedule.cs" />
+    <Compile Include="Models\Templates\GenericTemplate.cs" />
+    <Compile Include="Models\Templates\ListTemplate.cs" />
+    <Compile Include="Models\Templates\ReceiptTemplate.cs" />
+    <Compile Include="Models\Messaging\Payloads\TemplatePayload.cs" />
+    <Compile Include="Models\Templates\TemplateType.cs" />
+    <Compile Include="Models\Buttons\UrlButton.cs" />
+    <Compile Include="Models\UserInfoField.cs" />
+    <Compile Include="Models\Messaging\Webhook\WebhookModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\Authenticator.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\UserProfileApi.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
