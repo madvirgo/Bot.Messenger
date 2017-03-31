@@ -16,6 +16,6 @@
     <tags>.net sdk facebook messenger bot</tags>
   </metadata>
   <files>
-	<file src="Bot.Messenger\bin\$config$\Bot.Messenger.dll" target="lib\net45\" />
+	<file src="Bot.Messenger\bin\$configuration$\Bot.Messenger.dll" target="lib\net45\" />
   </files>
 </package>
