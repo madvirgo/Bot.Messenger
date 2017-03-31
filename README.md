@@ -58,11 +58,12 @@ Sample WebAPI project https://github.com/olisamaduka/MessengerBot-WebAPI
         public async Task<HttpResponseMessage> Post()
         {
             var body = await Request.Content.ReadAsStringAsync();
-
-            if (!_Bot.Authenticator.VerifySignature(Request.Headers.GetValues("X-Hub-Signature").FirstOrDefault(), body))
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            
             MessengerPlatform bot = MessengerPlatform.CreateInstance(
                     MessengerPlatform.CreateCredentials(_appSecret, _pageToken, _verifyToken));
+
+            if (!bot.Authenticator.VerifySignature(Request.Headers.GetValues("X-Hub-Signature").FirstOrDefault(), body))
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
 
             Bot.Messenger.Models.WebhookModel webhookModel = bot.ProcessWebhookRequest(body);
             
