@@ -90,7 +90,7 @@ Sample WebAPI project https://github.com/olisamaduka/MessengerBot-WebAPI
                                     {
                                         await bot.SendApi.SendTextAsync(evt.Sender.ID, $"Hello {userProfileRsp?.FirstName}, you sent this and we thought it would be nice we sent it back :)");
                                     
-                                        response = await bot.SendApi.SendAttachmentAsync(evt.Sender.ID, attachment);
+                                        await bot.SendApi.SendAttachmentAsync(evt.Sender.ID, attachment);
                                     }
                                 }
                         }
