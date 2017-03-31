@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Bot.Messenger</id>
+    <version>$version$</version>
+    <title>Bot.Messenger</title>
+    <authors>Jaffa Technologies Limited, Olisa Maduka</authors>
+    <owners>Olisa Maduka</owners>
+    <licenseUrl></licenseUrl>
+    <projectUrl>https://github.com/olisamaduka/Bot.Messenger</projectUrl>
+    <iconUrl></iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>.NET SDK Library for Facebook's Messenger Bot</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright &#x00A9; Jaffa Technologies Limited.  All rights reserved.</copyright>
+    <tags>.net sdk facebook messenger bot</tags>
+  </metadata>
+  <files>
+	<file src="Bot.Messenger\bin\$config$\Bot.Messenger.dll" target="lib\net45\" />
+  </files>
+</package>
