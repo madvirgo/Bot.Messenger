@@ -76,8 +76,24 @@ Sample WebAPI project https://github.com/olisamaduka/MessengerBot-WebAPI
                         await bot.SendApi.SendActionAsync(evt.Sender.ID, Bot.Messenger.Models.SenderAction.typing_on);
 
                         Bot.Messenger.Models.UserProfileResponse userProfileRsp = await bot.UserProfileApi.GetUserProfileAsync(evt.Sender.ID);
-
-                        await bot.SendApi.SendTextAsync(evt.Sender.ID, $"Hello {userProfileRsp?.FirstName} :)");
+                        
+                        if (evt.Message.Attachments == null)
+                        {
+                                await bot.SendApi.SendTextAsync(evt.Sender.ID, $"Hello {userProfileRsp?.FirstName} :)");
+                        }
+                        else // if the user sent an image, file, sticker etc., we send it back to them
+                        {
+                                foreach (var attachment in evt.Message.Attachments)
+                                {
+                                    if (attachment.Type != Bot.Messenger.Models.AttachmentType.fallback
+                                        && attachment.Type != Bot.Messenger.Models.AttachmentType.location)
+                                    {
+                                    await bot.SendApi.SendTextAsync(evt.Sender.ID, $"Hello {userProfileRsp?.FirstName}, you sent this and we thought it would be nice we sent it back :)");
+                                    
+                                        response = await bot.SendApi.SendAttachmentAsync(evt.Sender.ID, attachment);
+                                    }
+                                }
+                        }
                     }
                 }
             }
