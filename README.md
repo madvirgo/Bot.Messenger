@@ -58,6 +58,27 @@ Bot.Messenger.MessengerPlatform bot = Bot.Messenger.MessengerPlatform.CreateInst
 - You can access the Messenger platform APIs through an instance of the Bot.Messenger.MessengerPlatform class (APIs supported are Send API, User Profile API and Messenger Profile API).  Here is a sample usage at an ASP.NET WebAPI WebhookController 
 
 ```csharp
+
+// HTTP Get endpoint to verify Webhook using the Verify Token
+public HttpResponseMessage Get()
+{
+    var querystrings = Request.GetQueryNameValuePairs().ToDictionary(x => x.Key, x => x.Value);
+
+    Bot.Messenger.MessengerPlatform bot = Bot.Messenger.MessengerPlatform.CreateInstance(
+            Bot.Messenger.MessengerPlatform.CreateCredentials(_appSecret, _pageToken, _verifyToken));
+
+    if (bot.Authenticator.VerifyToken(querystrings["hub.verify_token"]))
+    {
+        return new HttpResponseMessage(HttpStatusCode.OK)
+        {
+            Content = new StringContent(querystrings["hub.challenge"], Encoding.UTF8, "text/plain")
+        };
+    }
+
+    return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+}
+
+// HTTP Post endpoint to receive Webhook callbacks from Facebook Messenger
 [HttpPost]
 public async Task<HttpResponseMessage> Post()
 {
@@ -113,6 +134,41 @@ public async Task<HttpResponseMessage> Post()
  bot.SendApi // Messenger Send API reference
  
  //And of course the Messenger Profile API is referenced the same way
- bot.MessengerProfileAPI
+ bot.MessengerProfileApi
+```
+
+> The bot.Authenticator reference is used to verify you webhook Verify Token and the OAuth signature of a webhook callback
+
+```csharp
+
+/* checks if the query string value of hub.verify_token is equal to the specified VerifyToken
+in your application (either the one in web.config ApplicationSettings or the one used to initialize the
+Bot.Messenger.MessengerPlatform class instance) */
+ bot.Authenticator.VerifyToken 
+
+/* Verifies the X-Hub-Signature header against a Sha1 encryption of your specified App secret */
+ bot.Authenticator.VerifySignature
+```
+
+- This library encapsulates all serialization and data contract requests between your Web application and Facebook Messenger so you never have to worry about those things. All the objects from and to Messenger are referenced via strongly typed classes e.g Templates, Attachments, Messages, Webhook objects etc. And through the Bot.Messenger.MessengerPlatform API references such as the SendApi, you can directly make requests to Messenger without worrying about how the json object is to be structured.
+
+```csharp
+
+SendApiResponse sendQuickReplyResponse = await bot.SendApi.SendTextAsync(evt.Sender.ID, "Are you a Developer?", new List<QuickReply>
+{
+        new QuickReply
+        {
+            ContentType = QuickReplyContentType.text,
+            Title = "Yes",
+            Payload = "PAYLOAD_YES"
+        },
+        new QuickReply
+        {
+            ContentType = QuickReplyContentType.text,
+            Title = "No",
+            Payload = "PAYLOAD_NO"
+        }
+});
+
 ```
 
