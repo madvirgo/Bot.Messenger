@@ -7,11 +7,13 @@
 
 ## How to Use
 
+> To generate your Messenger credentials along with a detailed how-to on setting up a bot on Facebook Messenger (including Webhooks) see this quick-start guide on Facebook https://developers.facebook.com/docs/messenger-platform/guides/quick-start
+
 - Create an instance of the Bot.Messenger.MessengerPlatform class and pass it your credentials
 
 ```csharp
-        Bot.Messenger.MessengerPlatform bot = Bot.Messenger.MessengerPlatform.CreateInstance(
-                Bot.Messenger.MessengerPlatform.CreateCredentials(_appSecret, _pageToken, _verifyToken));
+Bot.Messenger.MessengerPlatform bot = Bot.Messenger.MessengerPlatform.CreateInstance(
+        Bot.Messenger.MessengerPlatform.CreateCredentials(_appSecret, _pageToken, _verifyToken));
 ```
 
 - OR set your credentials in web.config and initialize in code as so;
@@ -45,9 +47,9 @@
   > Code
 
     ```csharp
-            Bot.Messenger.MessengerPlatform bot = Bot.Messenger.MessengerPlatform.CreateInstance();
-            // OR
-            // Bot.Messenger.MessengerPlatform bot = new Bot.Messenger.MessengerPlatform();
+    Bot.Messenger.MessengerPlatform bot = Bot.Messenger.MessengerPlatform.CreateInstance();
+    // OR
+    // Bot.Messenger.MessengerPlatform bot = new Bot.Messenger.MessengerPlatform();
     ```
 
 > Credentials are fetched from web.config ApplicationSettings when the CreateInstance method is called without a credentials parameter or if the parameterless constructor is used to initialize the MessengerPlatform class. This holds true for all types that inherit from Bot.Messenger.ApiBase.
@@ -56,54 +58,61 @@
 - You can access the Messenger platform APIs through an instance of the Bot.Messenger.MessengerPlatform class (APIs supported are Send API, User Profile API and Messenger Profile API).  Here is a sample usage at an ASP.NET WebAPI WebhookController 
 
 ```csharp
-        [HttpPost]
-        public async Task<HttpResponseMessage> Post()
-        {
-            var body = await Request.Content.ReadAsStringAsync();
-            
-            Bot.Messenger.MessengerPlatform bot = Bot.Messenger.MessengerPlatform.CreateInstance(
-                    Bot.Messenger.MessengerPlatform.CreateCredentials(_appSecret, _pageToken, _verifyToken));
+[HttpPost]
+public async Task<HttpResponseMessage> Post()
+{
+    var body = await Request.Content.ReadAsStringAsync();
 
-            if (!bot.Authenticator.VerifySignature(Request.Headers.GetValues("X-Hub-Signature").FirstOrDefault(), body))
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+    Bot.Messenger.MessengerPlatform bot = Bot.Messenger.MessengerPlatform.CreateInstance(
+            Bot.Messenger.MessengerPlatform.CreateCredentials(_appSecret, _pageToken, _verifyToken));
 
-            Bot.Messenger.Models.WebhookModel webhookModel = bot.ProcessWebhookRequest(body);
-            
-            foreach (var entry in webhookModel.Entries)
+    if (!bot.Authenticator.VerifySignature(Request.Headers.GetValues("X-Hub-Signature").FirstOrDefault(), body))
+        return new HttpResponseMessage(HttpStatusCode.BadRequest);
+
+    Bot.Messenger.Models.WebhookModel webhookModel = bot.ProcessWebhookRequest(body);
+
+    foreach (var entry in webhookModel.Entries)
+    {
+        foreach (var evt in entry.Events)
+        {                
+            if (evt.EventType == Bot.Messenger.Models.WebhookEventType.MessageReceivedCallback)
             {
-                foreach (var evt in entry.Events)
-                {                
-                    if (evt.EventType == Bot.Messenger.Models.WebhookEventType.MessageReceivedCallback)
-                    {
-                        await bot.SendApi.SendActionAsync(evt.Sender.ID, Bot.Messenger.Models.SenderAction.typing_on);
+                await bot.SendApi.SendActionAsync(evt.Sender.ID, Bot.Messenger.Models.SenderAction.typing_on);
 
-                        Bot.Messenger.Models.UserProfileResponse userProfileRsp = await bot.UserProfileApi.GetUserProfileAsync(evt.Sender.ID);
-                        
-                        if (evt.Message.Attachments == null)
+                Bot.Messenger.Models.UserProfileResponse userProfileRsp = await bot.UserProfileApi.GetUserProfileAsync(evt.Sender.ID);
+
+                if (evt.Message.Attachments == null)
+                {
+                        await bot.SendApi.SendTextAsync(evt.Sender.ID, $"Hello {userProfileRsp?.FirstName} :)");
+                }
+                else // if the user sent an image, file, sticker etc., we send it back to them
+                {
+                        foreach (var attachment in evt.Message.Attachments)
                         {
-                                await bot.SendApi.SendTextAsync(evt.Sender.ID, $"Hello {userProfileRsp?.FirstName} :)");
+                            if (attachment.Type != Bot.Messenger.Models.AttachmentType.fallback
+                                && attachment.Type != Bot.Messenger.Models.AttachmentType.location)
+                            {
+                                await bot.SendApi.SendTextAsync(evt.Sender.ID, $"Hello {userProfileRsp?.FirstName}, you sent this and we thought it would be nice we sent it back :)");
+
+                                await bot.SendApi.SendAttachmentAsync(evt.Sender.ID, attachment);
+                            }
                         }
-                        else // if the user sent an image, file, sticker etc., we send it back to them
-                        {
-                                foreach (var attachment in evt.Message.Attachments)
-                                {
-                                    if (attachment.Type != Bot.Messenger.Models.AttachmentType.fallback
-                                        && attachment.Type != Bot.Messenger.Models.AttachmentType.location)
-                                    {
-                                        await bot.SendApi.SendTextAsync(evt.Sender.ID, $"Hello {userProfileRsp?.FirstName}, you sent this and we thought it would be nice we sent it back :)");
-                                    
-                                        await bot.SendApi.SendAttachmentAsync(evt.Sender.ID, attachment);
-                                    }
-                                }
-                        }
-                    }
                 }
             }
-
-            return new HttpResponseMessage(HttpStatusCode.OK);
         }
+    }
+
+    return new HttpResponseMessage(HttpStatusCode.OK);
+}
 ```
 
+> Notice how the Messenger Platform's User Profile API and Send API are referenced above
 
-
+```csharp
+ bot.UserProfileApi // Messenger User Profile API reference
+ bot.SendApi // Messenger Send API reference
+ 
+ //And of course the Messenger Profile API is referenced the same way
+ bot.MessengerProfileAPI
+```
 
