@@ -22,6 +22,9 @@ namespace Bot.Messenger.Models
         [JsonIgnore]
         public virtual ErrorResponse ErrorResponse { get; set; }
 
+        [JsonIgnore]
+        public virtual Exception Exception { get; set; }
+
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder();
@@ -39,6 +42,13 @@ namespace Bot.Messenger.Models
                 stringBuilder.AppendLine("=======ERROR RESPONSE=======");
                 stringBuilder.AppendLine();
                 stringBuilder.AppendLine(ErrorResponse.ToString());
+            }
+
+            if (Exception != null)
+            {
+                stringBuilder.AppendLine("=======EXCEPTION=======");
+                stringBuilder.AppendLine();
+                stringBuilder.AppendLine(Exception.ToString());
             }
 
             return stringBuilder.ToString();

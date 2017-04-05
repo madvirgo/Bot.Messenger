@@ -83,7 +83,7 @@ namespace Bot.Messenger.Tools
             }, new JsonSerializer { NullValueHandling = NullValueHandling.Ignore }));
         }
 
-        public async Task<SendApiResponse> SendMessageAsync<T>(string recipientID, T message)
+        private async Task<SendApiResponse> SendMessageAsync<T>(string recipientID, T message)
             where T : Message
         {
             return await SendAsync(JObject.FromObject(new MessageContainer<T>
@@ -93,7 +93,7 @@ namespace Bot.Messenger.Tools
             }, new JsonSerializer { NullValueHandling = NullValueHandling.Ignore }));
         }
 
-        public async Task<SendApiResponse> SendAsync(JObject json, string endPoint = null)
+        private async Task<SendApiResponse> SendAsync(JObject json, string endPoint = null)
         {
             endPoint = endPoint ?? _SendMessageEndpoint;
             return await RequestHandler.PostAsync<SendApiResponse>(json, $"{endPoint}");

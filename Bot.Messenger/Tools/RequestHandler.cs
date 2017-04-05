@@ -18,27 +18,49 @@ namespace Bot.Messenger.Tools
         {
             using (HttpClient client = new HttpClient())
             {
-                SetDefaultHeaders(client);
+                T webResponse = new T();
 
-                HttpResponseMessage response = await client.GetAsync(requestUrl);
+                try
+                {
+                    SetDefaultHeaders(client);
 
-                return await ProcessResult<T>(response);
+                    HttpResponseMessage response = await client.GetAsync(requestUrl);
+
+                    webResponse = await ProcessResult<T>(response);
+                }
+                catch (Exception ex)
+                {
+                    webResponse.Exception = ex;
+                }
+
+                return webResponse;
             }
         }
 
         public static async Task<T> PostAsync<T>(JObject json, string requestUrl)
-            where T : WebResponse, new ()
+            where T : WebResponse, new()
         {
             using (HttpClient client = new HttpClient())
             {
-                SetDefaultHeaders(client);
+                T webResponse = new T();
 
-                string requestBody = json.ToString();
+                try
+                {
+                    SetDefaultHeaders(client);
 
-                HttpResponseMessage response = await client.PostAsync(requestUrl,
-                    new StringContent(requestBody, Encoding.UTF8, "application/json"));
+                    string requestBody = json.ToString();
 
-                return await ProcessResult<T>(response, requestBody);
+                    HttpResponseMessage response = await client.PostAsync(requestUrl,
+                        new StringContent(requestBody, Encoding.UTF8, "application/json"));
+
+                    webResponse = await ProcessResult<T>(response, requestBody);
+                }
+                catch (Exception ex)
+                {
+                    webResponse.Exception = ex;
+                }
+
+                return webResponse;
             }
         }
 
@@ -47,11 +69,22 @@ namespace Bot.Messenger.Tools
         {
             using (HttpClient client = new HttpClient())
             {
-                SetDefaultHeaders(client);
+                T webResponse = new T();
 
-                HttpResponseMessage response = await client.DeleteAsync(requestUrl);
+                try
+                {
+                    SetDefaultHeaders(client);
 
-                return await ProcessResult<T>(response);
+                    HttpResponseMessage response = await client.DeleteAsync(requestUrl);
+
+                    webResponse = await ProcessResult<T>(response);
+                }
+                catch (Exception ex)
+                {
+                    webResponse.Exception = ex;
+                }
+
+                return webResponse;
             }
         }
 
@@ -60,14 +93,25 @@ namespace Bot.Messenger.Tools
         {
             using (HttpClient client = new HttpClient())
             {
-                SetDefaultHeaders(client);
+                T webResponse = new T();
 
-                string requestBody = json.ToString();
+                try
+                {
+                    SetDefaultHeaders(client);
 
-                HttpResponseMessage response = await client.SendAsync(new HttpRequestMessage(HttpMethod.Delete, requestUrl)
-                { Content = new StringContent(requestBody, Encoding.UTF8, "application/json") });
+                    string requestBody = json.ToString();
 
-                return await ProcessResult<T>(response, requestBody);
+                    HttpResponseMessage response = await client.SendAsync(new HttpRequestMessage(HttpMethod.Delete, requestUrl)
+                        { Content = new StringContent(requestBody, Encoding.UTF8, "application/json") });
+
+                    webResponse = await ProcessResult<T>(response, requestBody);
+                }
+                catch (Exception ex)
+                {
+                    webResponse.Exception = ex;
+                }
+
+                return webResponse;
             }
         }
 
@@ -81,23 +125,30 @@ namespace Bot.Messenger.Tools
         {
             T webResponse = new T();
 
-            if (httpResponse != null && httpResponse.Content != null)
+            try
             {
-                string responseJsonString = await httpResponse.Content.ReadAsStringAsync();
-
-                if (httpResponse.IsSuccessStatusCode)
+                if (httpResponse != null && httpResponse.Content != null)
                 {
-                    webResponse = JsonConvert.DeserializeObject<T>(responseJsonString);
-                    webResponse.IsSuccessful = true;
-                }
-                else
-                {
-                    webResponse.ErrorResponse = JsonConvert.DeserializeObject<ErrorResponse>(responseJsonString);
-                    webResponse.IsSuccessful = false;
-                }
+                    webResponse.HttpRequest = httpResponse.RequestMessage?.ToString() + "\nRequest Body: " + requestBody;
 
-                webResponse.HttpRequest = httpResponse.RequestMessage?.ToString() + "\nRequest Body: " + requestBody;
-                webResponse.HttpResponse = httpResponse.ToString() + "\nResponse Content: " + responseJsonString;
+                    string responseJsonString = await httpResponse.Content.ReadAsStringAsync();
+                    webResponse.HttpResponse = httpResponse.ToString() + "\nResponse Content: " + responseJsonString;
+
+                    if (httpResponse.IsSuccessStatusCode)
+                    {
+                        webResponse = JsonConvert.DeserializeObject<T>(responseJsonString);
+                        webResponse.IsSuccessful = true;
+                    }
+                    else
+                    {
+                        webResponse.ErrorResponse = JsonConvert.DeserializeObject<ErrorResponse>(responseJsonString);
+                        webResponse.IsSuccessful = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                webResponse.Exception = ex;
             }
 
             return webResponse;

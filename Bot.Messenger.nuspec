@@ -13,7 +13,7 @@
     <description>.NET SDK Library for Facebook's Messenger Bot</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright &#x00A9; Jaffa Technologies Limited.  All rights reserved.</copyright>
-    <tags>.net sdk facebook messenger bot</tags>
+    <tags>.net framework sdk facebook messenger bot messenger-bot messenger-platform facebook-messenger-platform messenger-profile-api webhook chat-bot</tags>
   </metadata>
   <files>
 	<file src="Bot.Messenger\bin\$configuration$\Bot.Messenger.dll" target="lib\net45\" />
